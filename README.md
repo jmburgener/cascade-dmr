@@ -6,9 +6,13 @@ Given fragment counts over regions of interest (ROI) for cases and controls, `Dy
 
 `synthetic.py` fakes a cohort with a known signal so this runs without real data.
 
-## Install
+## Setup and install
 
 ```
+git clone https://github.com/jmburgener/cascade-dmr
+cd cascade-dmr
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -e ".[dev]"
 ```
 

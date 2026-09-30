@@ -28,4 +28,4 @@ python examples/end_to_end_demo.py
 pytest
 ```
 
-9 tests. Region/annotation/window helpers each get their own unit tests using synthetic data. DmrCaller and EnsembleScorer only get invoked through the end-to-end test in test_pipeline.py.
+16 tests. Region/annotation/window helpers each get their own unit tests using synthetic data. `DmrCaller` and `EnsembleScorer` have unit tests on hand-built inputs that pin the calling thresholds (|log2 ratio| is strict `>`, prevalence is inclusive `>=`) and the scoring edge case: a sample with zero anti-DMR counts gets `NaN` (no call), never `inf`. `test_pipeline.py` runs the whole thing end to end.

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import numpy as np
 import pandas as pd
 
 
@@ -44,9 +45,11 @@ class EnsembleScorer:
         for col in ["n_dmr_counts", "n_antidmr_counts", "n_dmrs", "n_antidmrs"]:
             scores[col] = scores[col].fillna(0)
 
-        scores["score"] = scores["n_dmr_counts"] / scores["n_antidmr_counts"]
-        scores["normalized_score"] = (scores["n_dmr_counts"] / scores["n_dmrs"]) / (
-            scores["n_antidmr_counts"] / scores["n_antidmrs"]
+        # No background counts means no call: NaN, never inf.
+        antidmr_counts = scores["n_antidmr_counts"].replace(0, np.nan)
+        scores["score"] = scores["n_dmr_counts"] / antidmr_counts
+        scores["normalized_score"] = (scores["n_dmr_counts"] / scores["n_dmrs"].replace(0, np.nan)) / (
+            antidmr_counts / scores["n_antidmrs"].replace(0, np.nan)
         )
         self.scores = scores
 
